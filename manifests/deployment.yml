@@ -1,0 +1,19 @@
+apiVersion : apps/v1
+kind: Deployment
+metadata:
+  name: srizvidevrespos 
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: srizvidevrespos
+  template:
+    metadata:
+      labels:
+        app: srizvidevrespos 
+    spec:
+      containers:
+        - name: srizvidevrespos 
+          image: congre17.azurecr.io/srizvidevrespos
+          ports:
+          - containerPort: 80
