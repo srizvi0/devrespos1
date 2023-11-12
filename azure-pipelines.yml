@@ -23,8 +23,20 @@ stages:
     - task: Docker@2
       displayName: Build an image
       inputs:
-        command: build
-        containerRegistry: 
-        dockerfile: '$(Build.SourcesDirectory)/Dockerfile'
-        tags: |
-          $(tag)
+        containerRegistry: 'Container Registry'
+        repository: 'Congre17'
+        command: 'build'
+        Dockerfile: 'Dockerfile'
+        tags: '$$(Build.BuildId)'
+      
+    - task: Docker@2
+      displayName: Push an image
+      inputs:
+        containerRegistry: 'Container Registry'
+        repository: 'Congre17'
+        command: 'push'
+        Dockerfile: 'Dockerfile'
+        tags: '$(Build.BuildId)'
+        
+      
+    
