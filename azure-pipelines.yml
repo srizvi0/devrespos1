@@ -19,7 +19,7 @@ stages:
           AGENT_NAME: 'LAPTOP-3LS0FRC2'
 
     pool:
-      name: BUZ-MYBh
+      name: Default
       demands:
         - agent.name -equals $(AGENT_NAME)
     steps:
