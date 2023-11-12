@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: flaskdeploy1
+  name: server1
 spec:
   replicas: 2
   selector:
@@ -13,8 +13,8 @@ spec:
         app: test
     spec:
       containers:
-      - name: con12
-        image:  congre14.azurecr.io/repos15
+      - name: container1
+        image:  congre17.azurecr.io/repos15
         ports:
         - containerPort: 80
 
