@@ -1,0 +1,47 @@
+trigger:
+- main
+
+resources:
+- repo: self
+
+variables:
+  imagename: 'image-$(Build.Repository.Name):$(Build.SourceBranchName)-$(Build.BuildId)'
+
+stages:
+- stage: Build
+  displayName: Build image & deploy
+  jobs:
+  - job: Build
+    displayName: Build & deploy
+    pool:
+      vmImage: 'ubuntu-latest'  # Change to an existing agent pool
+
+    steps:
+    - task: Docker@2
+      displayName: Build an image
+      inputs:
+        containerRegistry: 'Container Registry'  # Check if this matches your Azure Container Registry name
+        repository: 'congre17'  # Verify the repository name
+        command: 'build'
+        Dockerfile: 'Dockerfile'
+        tags: '$(imagename)'
+      
+    - task: Docker@2
+      displayName: Push an image
+      inputs:
+        containerRegistry: 'Container Registry'  # Check if this matches your Azure Container Registry name
+        repository: 'congre17'  # Verify the repository name
+        command: 'push'
+        Dockerfile: 'Dockerfile'
+        tags: '$(imagename)'
+        
+    - task: Kubernetes@1
+      displayName: 'Kube Apply'
+      inputs:
+        connectionType: 'Kubernetes Service Connection'
+        kubernetesServiceEndpoint: 'kubectlserviceconnection'  # Confirm this matches your service connection
+        command: 'apply'
+        useConfigurationFile: true
+        configuration: 'https://github.com/srizvi0/devrespos1'  # Verify the correct URL
+        secretType: 'dockerRegistry'
+        containerRegistryType: 'Azure Container Registry'
