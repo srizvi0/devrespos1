@@ -38,5 +38,15 @@ stages:
         Dockerfile: 'Dockerfile'
         tags: '$(Build.BuildId)'
         
-      
-    
+
+    - task: Kubernetes@1
+      displayName: 'Kube Apply'
+      inputs:
+        connectionType: 'Kubernetes Service Connection'
+        kubernetesServiceEndpoint: 'kubectlserviceconnection'
+        command: 'apply'
+        useConfigurationFile: true
+        configuration: 'https://github.com/srizvi0/devrespos1'
+        secretType: 'dockerRegistry'
+        containerRegistryType: 'Azure Container Registry'
+        
