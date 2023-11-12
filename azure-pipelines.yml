@@ -14,8 +14,9 @@ stages:
   - job: Build
     displayName: Build & deploy
     pool:
-      vmImage: 'ubuntu-latest'  # Change to an existing agent pool
-
+      name: Default
+      demands: SpecialSoftware
+      
     steps:
     - task: Docker@2
       displayName: Build an image
